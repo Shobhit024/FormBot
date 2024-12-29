@@ -6,25 +6,18 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const route = require("./routes/api"); // Adjust the path as necessary
 
-dotenv.config();
+dotenv.config(); // Load the .env file
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// CORS setup
-const allowedOrigins = ["https://form-bot.shobhit.me", "http://localhost:3000"];
+// CORS setup: Allow all origins
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
+    origin: "*", // Allow all origins
+    credentials: true, // Allow cookies to be sent with the request
   })
 );
 
@@ -37,7 +30,7 @@ app.use("/api", route);
 // MongoDB connection
 const connectDB = async () => {
   const mongoURI =
-    process.env.MONGODB_URL || "mongodb://localhost:27017/formbotDB";
+    process.env.MONGODB_URI || "mongodb://localhost:27017/formbotDB"; // Use MONGODB_URI from .env
   try {
     await mongoose.connect(mongoURI, {
       useNewUrlParser: true,
@@ -52,7 +45,7 @@ const connectDB = async () => {
 connectDB();
 
 // Server setup
-const PORT = process.env.PORT || 5000; // Set the port, default to 3000
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
