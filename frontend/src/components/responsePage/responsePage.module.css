@@ -1,0 +1,126 @@
+.responseMainContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Uncomment for centering */
+  justify-content: center;
+}
+
+.boxContainer {
+  display: flex;
+  justify-content: center;
+  gap: 5%; /* Reduced gap for better alignment */
+  padding: 20px;
+  margin-top: 60px;
+  flex-wrap: wrap; /* Ensure responsiveness */
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  height: 85px;
+  margin-block: 60px;
+  flex-direction: column;
+  border-radius: 10px;
+  background-color: rgb(67, 66, 66);
+  padding: 10px;
+}
+
+.box div {
+  font-weight: 600;
+  font-size: 1.3rem;
+  padding-inline: 10px;
+  min-width: 130px;
+}
+
+.box div:last-child {
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
+/* submissionContainer */
+table {
+  width: 100%; /* Full width for responsiveness */
+  max-width: 70%; /* Limit width for larger screens */
+  border-collapse: collapse;
+  margin: 20px 0;
+  border: 1px solid #444;
+  overflow-x: auto; /* Handle overflow */
+}
+
+th,
+td {
+  border: 1px solid #444;
+  padding: 8px;
+  text-align: left;
+}
+
+td {
+  word-wrap: break-word;
+  max-width: 200px;
+}
+
+/* response data show through pop up */
+.responsePopUpShow {
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  border-radius: 20px;
+  top: 7%;
+  right: 10px;
+  width: 90%; /* Responsive width */
+  max-width: 30%; /* Limit width for larger screens */
+  height: 85%;
+  z-index: 1000;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  overflow-y: auto;
+  scrollbar-width: auto; /* Allow scrollbars */
+}
+
+.botBox {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  font-size: 20px;
+  width: 100%; /* Full width for responsiveness */
+  max-width: 300px;
+  font-weight: 600;
+  padding: 15px 16px;
+  border-radius: 16px;
+  margin-top: 15px;
+}
+
+.responsePopUpShow textarea {
+  background-color: #4ec464;
+  border: none;
+  width: 100%;
+  resize: none;
+  font-size: 16px;
+  box-sizing: border-box;
+  overflow: auto;
+  max-height: 40px;
+}
+
+.responsePopUpShow img {
+  width: 100%;
+  height: auto; /* Ensure aspect ratio is maintained */
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .boxContainer {
+    gap: 2%; /* Reduce gap for smaller screens */
+  }
+
+  .responsePopUpShow {
+    width: 90%; /* Adjust width for mobile */
+    right: 5%; /* Center popup */
+  }
+}
