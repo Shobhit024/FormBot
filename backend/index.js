@@ -4,44 +4,45 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-const route = require("./routes/api"); // Adjust the path as necessary
+const route = require("./routes/api"); // Adjust this path if necessary
 
-dotenv.config(); // Load the .env file
+dotenv.config(); // Load environment variables from .env file
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// CORS setup: Allow all origins
+// CORS setup
 app.use(
   cors({
-    origin: "*", // Allow all origins
-    credentials: true, // Allow cookies to be sent with the request
+    origin: "*", // Allow all origins for simplicity (adjust for production)
+    credentials: true,
   })
 );
 
 // Routes
 app.get("/", (req, res) => {
-  res.send("Successfully launched");
+  res.send("Server successfully launched");
 });
 app.use("/api", route);
 
 // MongoDB connection
 const connectDB = async () => {
-  const mongoURI =
-    process.env.MONGODB_URI || "mongodb://localhost:27017/formbotDB"; // Use MONGODB_URI from .env
+  const mongoURI = process.env.MONGODB_URI;
   try {
-    await mongoose.connect(mongoURI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    console.log("Attempting to connect to MongoDB...");
+    console.log("MongoDB URI:", mongoURI);
+
+    await mongoose.connect(mongoURI);
     console.log("MongoDB connected successfully");
   } catch (error) {
-    console.error("Error connecting to MongoDB:", error);
+    console.error("Error connecting to MongoDB:", error.message);
     setTimeout(connectDB, 5000); // Retry connection after 5 seconds
   }
 };
+
+// Call the database connection function
 connectDB();
 
 // Server setup
