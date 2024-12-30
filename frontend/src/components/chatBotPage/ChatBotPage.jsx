@@ -22,7 +22,7 @@ const ChatBot = () => {
   const saveBotResponseFn = async () => {
     try {
       const res = await fetch(
-        `https://form-bot-backend1.vercel.app/api/bot_response_save/${param.botId}`,
+        `${process.env.REACT_APP_API_URL}/api/bot_response_save/${param.botId}`,
         {
           method: "POST",
           headers: {
@@ -46,7 +46,7 @@ const ChatBot = () => {
   const fetchBotDetails = async () => {
     try {
       const res = await fetch(
-        `https://form-bot-backend1.vercel.app/api/bot_form_details/${param.botId}`
+        `${process.env.REACT_APP_API_URL}/api/bot_form_details/${param.botId}`
       );
       const result = await res.json();
       setBotArray(result?.botArr || []); // Fallback if `botArr` is undefined

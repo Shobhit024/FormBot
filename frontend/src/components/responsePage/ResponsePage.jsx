@@ -16,10 +16,12 @@ const ResponsePage = () => {
   const [showPopUp, setShowPopUp] = useState(false);
   const [showDataDetails, setShowDataDetails] = useState([]);
 
+  // const backgroundImage = "path_to_image_url"; // Define the background image URL
+
   const fetchFolderFn = async () => {
     try {
       const res = await fetch(
-        `https://form-bot-backend1.vercel.app/api/get_bot_response/${param.botId}/`,
+        `${process.env.REACT_APP_API_URL}/api/get_bot_response/${param.botId}/`,
         {
           method: "GET",
           headers: {
@@ -36,7 +38,9 @@ const ResponsePage = () => {
         throw new Error(result.message || "Failed to fetch data");
       }
     } catch (error) {
-      toast.error(error.message, { duration: 1000 });
+      toast.error("Something went wrong. Please try again later.", {
+        duration: 2000,
+      });
       console.log(error.message);
     }
   };
@@ -46,6 +50,7 @@ const ResponsePage = () => {
   }, [param.botId]);
 
   const dateFormate = (createdAtDate) => {
+    if (!createdAtDate) return "Invalid date"; // Handle invalid date
     const date = new Date(createdAtDate);
     const options = {
       timeZone: "Asia/Kolkata",
@@ -92,10 +97,10 @@ const ResponsePage = () => {
         <table>
           <thead>
             <tr>
-              <th>Response Id</th>
-              <th>First Question</th>
-              <th>First Answer</th>
-              <th>Submitted at</th>
+              <th scope="col">Response Id</th>
+              <th scope="col">First Question</th>
+              <th scope="col">First Answer</th>
+              <th scope="col">Submitted at</th>
             </tr>
           </thead>
           <tbody>

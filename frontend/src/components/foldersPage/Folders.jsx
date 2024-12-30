@@ -44,9 +44,15 @@ const Folders = () => {
   };
 
   const fetchFolderFn = useCallback(async () => {
+    if (!tokenId) {
+      toast.error("You are not authenticated.");
+      navigate("/login");
+      return;
+    }
+
     try {
       const res = await fetch(
-        "https://form-bot-backend1.vercel.app/api/get_folder_details",
+        `${process.env.REACT_APP_API_URL}/api/get_folder_details`,
         {
           method: "GET",
           headers: { Authorization: tokenId },
@@ -74,7 +80,7 @@ const Folders = () => {
   const saveFolderFn = async (folderName) => {
     try {
       const res = await fetch(
-        "https://form-bot-backend1.vercel.app/api/create_folder",
+        `${process.env.REACT_APP_API_URL}/api/create_folder`,
         {
           method: "POST",
           headers: {
@@ -95,7 +101,7 @@ const Folders = () => {
   const deleteFolderHandler = async (folderId) => {
     try {
       const res = await fetch(
-        `https://form-bot-backend1.vercel.app/api/delete_folder/${folderId}`,
+        `${process.env.REACT_APP_API_URL}/api/delete_folder/${folderId}`,
         {
           method: "DELETE",
           headers: { Authorization: tokenId },

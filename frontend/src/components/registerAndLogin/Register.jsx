@@ -34,7 +34,7 @@ const Register = () => {
       const toastId = toast.loading("Loading....");
       try {
         const res = await fetch(
-          "https://form-bot-backend1.vercel.app/api/register",
+          `${process.env.REACT_APP_API_URL}/api/register`,
           {
             method: "POST",
             headers: {

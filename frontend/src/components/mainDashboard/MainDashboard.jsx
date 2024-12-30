@@ -29,7 +29,7 @@ const MainDashboard = () => {
   const fetchFolderFn = async () => {
     try {
       const res = await fetch(
-        "https://form-bot-backend1.vercel.app/api/isLoginCheck",
+        `${process.env.REACT_APP_API_URL}/api/isLoginCheck`,
         {
           method: "GET",
           headers: {
@@ -62,17 +62,14 @@ const MainDashboard = () => {
   // Logout handler
   const logoutHandler = async () => {
     try {
-      const res = await fetch(
-        "https://form-bot-backend1.vercel.app/api/logout",
-        {
-          method: "POST",
-          headers: {
-            Authorization: tokenId, // Send token for authentication
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        }
-      );
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/logout`, {
+        method: "POST",
+        headers: {
+          Authorization: tokenId, // Send token for authentication
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
 
       if (!res.ok) {
         throw new Error("Logout failed: " + res.statusText);

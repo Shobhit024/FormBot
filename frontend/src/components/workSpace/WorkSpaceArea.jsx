@@ -25,13 +25,19 @@ const WorkSpaceArea = ({ isBotSaved }) => {
   const updateData = useSelector(
     (store) => store?.botUpdateReducer?.updateData
   );
-  const [botDetails, setBotDetails] = useState([]);
+  const [botDetails, setBotDetails] = useState(null); // Initialize as null
   const [skeleton, setSkeleton] = useState(isBotSaved);
   const [theme, setTheme] = useState("light");
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const mainRoute = location.pathname.split("/")[3];
+
+  useEffect(() => {
+    if (!tokenId) {
+      navigate("/login"); // Redirect if no token
+    }
+  }, [tokenId, navigate]);
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
@@ -41,9 +47,9 @@ const WorkSpaceArea = ({ isBotSaved }) => {
 
   const hasChanges = () => {
     if (
-      botDetails?.length === 0 ||
-      updateData.botArr?.length === 0 ||
-      Object.keys(updateData)?.length === 0
+      !botDetails ||
+      !updateData.botArr ||
+      Object.keys(updateData).length === 0
     )
       return false;
     const isBotDetailsChanged =
@@ -51,17 +57,48 @@ const WorkSpaceArea = ({ isBotSaved }) => {
     return isBotDetailsChanged;
   };
 
+  const botNameHandler = (e) => {
+    const newBotName = e.target.value;
+    dispatch(setBot({ ...data, botName: newBotName }));
+  };
+
+  const deleteBotHandler = () => {
+    // Delete bot logic
+    toast.success("Bot deleted successfully!");
+  };
+
+  const shareBotHandler = () => {
+    // Share bot logic
+    toast.success("Bot shared successfully!");
+  };
+
+  const updateBotHandler = () => {
+    if (hasChanges()) {
+      dispatch(setBotUpdate({ ...updateData }));
+      toast.success("Bot updated successfully!");
+    } else {
+      toast.error("No changes detected.");
+    }
+  };
+
+  const botArrSaveHandler = () => {
+    if (data.botArr?.length && data.botName) {
+      dispatch(setBot({ ...data }));
+      toast.success("Bot saved successfully!");
+    } else {
+      toast.error("Please fill in all fields.");
+    }
+  };
+
   return (
     <div className={`${style.workSpaceMainContainer} ${style[theme]}`}>
-      {" "}
-      {/* Add dynamic theme class */}
       <header>
         <div className={style.left}>
           <input
             value={isBotSaved ? updateData.botName || botName : data.botName}
             type="text"
             onChange={botNameHandler}
-            placeholder="Enter Form Name"
+            placeholder="Enter Bot Name"
           />
         </div>
         <div className={style.center}>
@@ -124,13 +161,13 @@ const WorkSpaceArea = ({ isBotSaved }) => {
             <button
               onClick={botArrSaveHandler}
               className={
-                data.botArr?.length !== 0 && data.botName?.length !== 0
+                data.botArr?.length && data.botName
                   ? style.saveBtn
                   : style.notUpdateBtn
               }
               style={{
                 cursor:
-                  data.botArr?.length !== 0 && data.botName?.length !== 0
+                  data.botArr?.length && data.botName
                     ? "pointer"
                     : "not-allowed",
               }}

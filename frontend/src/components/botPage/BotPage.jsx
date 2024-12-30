@@ -1,3 +1,11 @@
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+import { setBotUpdate } from "../../redux/botUpdateSlice";
+import style from "./BotPage.module.css";
+
 const BotPage = ({ isBotSaved, skeleton, botDetails }) => {
   const tokenId = Cookies.get("tokenId");
   const updateData = useSelector(
@@ -23,7 +31,7 @@ const BotPage = ({ isBotSaved, skeleton, botDetails }) => {
     }
     try {
       const res = await fetch(
-        `https://form-bot-backend1.vercel.app/api/bot_details/${mainFolder}/${botName}`,
+        `${process.env.REACT_APP_API_URL}/api/get-bot-details/${mainFolder}/${botName}`,
         {
           method: "GET",
           headers: { Authorization: tokenId },

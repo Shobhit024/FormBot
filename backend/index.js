@@ -4,10 +4,9 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-const route = require("./routes/api"); // Adjust this path if necessary
+const route = require("./routes/api");
 
-dotenv.config(); // Load environment variables from .env file
-
+dotenv.config();
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -16,7 +15,7 @@ app.use(cookieParser());
 // CORS setup
 app.use(
   cors({
-    origin: "*", // Allow all origins for simplicity (adjust for production)
+    origin: "https://formbot-gamo.onrender.com",
     credentials: true,
   })
 );
@@ -38,7 +37,7 @@ const connectDB = async () => {
     console.log("MongoDB connected successfully");
   } catch (error) {
     console.error("Error connecting to MongoDB:", error.message);
-    setTimeout(connectDB, 5000); // Retry connection after 5 seconds
+    setTimeout(connectDB, 5000);
   }
 };
 

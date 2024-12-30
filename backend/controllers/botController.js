@@ -22,7 +22,7 @@ exports.botDetails = async (req, res) => {
   try {
     const { folderName, botName } = req.params;
     // Assuming folderName is the name, and you need to match ObjectId of the folder
-    const folder = await FolderModel.findOne({ name: folderName }); // You need to define FolderModel if you haven't
+    const folder = await FolderModel.findOne({ name: folderName });
     if (!folder) return res.status(404).json({ msg: "Folder not found" });
 
     const bot = await botModel.findOne({ whichFolder: folder._id, botName });
