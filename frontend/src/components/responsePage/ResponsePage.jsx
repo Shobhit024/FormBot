@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { RxCross2 } from "react-icons/rx";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import Cookies from "js-cookie";
+import axios from "axios";
 import "react-loading-skeleton/dist/skeleton.css";
 
 const ResponsePage = () => {
@@ -16,32 +17,26 @@ const ResponsePage = () => {
   const [showPopUp, setShowPopUp] = useState(false);
   const [showDataDetails, setShowDataDetails] = useState([]);
 
-  // const backgroundImage = "path_to_image_url"; // Define the background image URL
-
   const fetchFolderFn = async () => {
     try {
-      const res = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/get_bot_response/${param.botId}/`,
+      const res = await axios.get(
+        `${import.meta.env.VITE_APP_API_URL}/api/get_bot_response/${
+          param.botId
+        }/`,
         {
-          method: "GET",
           headers: {
             Authorization: tokenId,
           },
-          credentials: "include",
+          withCredentials: true,
         }
       );
-      const result = await res.json();
-      if (res.ok) {
-        setResponseData(result.botResponse);
-        setSkeleton(false);
-      } else {
-        throw new Error(result.message || "Failed to fetch data");
-      }
+      setResponseData(res.data.botResponse);
+      setSkeleton(false);
     } catch (error) {
       toast.error("Something went wrong. Please try again later.", {
         duration: 2000,
       });
-      console.log(error.message);
+      console.error(error.message);
     }
   };
 
@@ -50,7 +45,7 @@ const ResponsePage = () => {
   }, [param.botId]);
 
   const dateFormate = (createdAtDate) => {
-    if (!createdAtDate) return "Invalid date"; // Handle invalid date
+    if (!createdAtDate) return "Invalid date";
     const date = new Date(createdAtDate);
     const options = {
       timeZone: "Asia/Kolkata",

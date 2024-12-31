@@ -8,7 +8,7 @@ import tringle from "./../../assets/tringle.png";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { storeIsLoggedIn } from "/src/redux/isLoginSlice.js";
-
+import axios from "axios";
 import Cookies from "js-cookie";
 
 const Login = () => {
@@ -28,6 +28,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
+
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
@@ -35,18 +36,25 @@ const Login = () => {
 
     setErrors({});
     const toastId = toast.loading("Verifying...");
+
     try {
-      const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
-      const res = await fetch(`${API_URL}/api/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ email, password }),
-      });
-      const result = await res.json();
-      if (res.ok) {
+      const API_URL =
+        import.meta.env.VITE_APP_API_URL || "http://localhost:5000";
+
+      const res = await axios.post(
+        `${API_URL}/api/login`,
+        { email, password },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+
+      const result = res.data;
+
+      if (res.status === 200) {
         Cookies.set("tokenId", result.tokenId, { expires: 1 });
         dispatch(storeIsLoggedIn(true));
         navigate("/");
@@ -59,7 +67,6 @@ const Login = () => {
       toast.error("Something went wrong. Please try again.", { id: toastId });
     }
   };
-
   return (
     <div className={style.signUpFormContainer}>
       <IoMdArrowBack

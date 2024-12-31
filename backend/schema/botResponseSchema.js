@@ -4,27 +4,17 @@ const botResponseSchema = new mongoose.Schema(
   {
     botResponseArr: [
       {
-        responseType: {
-          type: String,
-          required: [true, "Response type is required"],
-        },
-        category: {
-          type: String,
-          required: [true, "Category is required"],
-        },
-        value: {
-          type: String,
-          required: [true, "Value is required"],
-        },
+        type: { type: String },
+        category: { type: String },
+        value: { type: String },
       },
     ],
     whichBot: {
       type: mongoose.Schema.ObjectId,
-      ref: "bot", // Matches the `bot` model name
-      required: [true, "Bot reference is required"],
+      ref: "bot",
     },
   },
-  { timestamps: true } // Automatically adds `createdAt` and `updatedAt`
+  { timestamps: true }
 );
 
 const botResponseModel = mongoose.model("botResponse", botResponseSchema);

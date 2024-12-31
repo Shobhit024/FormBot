@@ -3,7 +3,6 @@
   grid-template-columns: 1fr 2fr; */
   padding: 20px;
 }
-
 .leftChooseContainer {
   background-color: #18181b;
   width: 400px;
@@ -17,8 +16,6 @@
 .bubblesBox {
   padding: 50px 10px 5px 10px;
 }
-
-/* Box styling */
 .box {
   display: flex;
   flex-wrap: wrap;
@@ -26,7 +23,13 @@
   align-items: center;
   padding: 10px;
 }
-
+.box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
 .box div {
   width: 47%;
   margin-top: 10px;
@@ -36,33 +39,29 @@
   padding: 6px 15px;
   border-radius: 9px;
   background-color: #1f1f23;
-  text-align: left; /* Changed from 'start' to 'left' */
+  text-align: start;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 8px;
 }
-
 .box .icon1 {
   color: #4b83ff;
   font-size: 1rem;
 }
-
 .box .iconGif {
   color: #4b83ff;
   font-size: 1.5rem;
 }
-
 .box .icon2 {
   font-size: 1rem;
   color: #ffa54c;
 }
-
 .box div:hover {
   background-color: #242426;
 }
+/* right Container */
 
-/* Right Container */
 .rightContainer {
   display: flex;
   flex-direction: column;
@@ -74,7 +73,6 @@
   margin-top: 46px;
   height: 89vh;
 }
-
 .startTxt {
   display: flex;
   position: sticky;
@@ -84,7 +82,7 @@
   gap: 11px;
   font-size: 20px;
   width: 460px;
-  transform: translateX(15%); /* Fixed the translate syntax */
+  translate: 15%;
   font-weight: 600;
   background-color: #18181b;
   padding: 15px 26px;
@@ -92,7 +90,6 @@
   margin-top: 15px;
   z-index: 100;
 }
-
 .botBox {
   display: flex;
   flex-direction: column;
@@ -122,8 +119,9 @@ textarea {
   background-color: rgb(34, 34, 34);
   border: none;
   width: 100%;
+  resize: none;
   font-size: 12px;
-  overflow: hidden; /* Changed from 'auto' */
+  overflow: auto;
 }
 
 .botBox .deleteBtn {
@@ -137,11 +135,9 @@ textarea {
   border-radius: 20px;
   padding: 1px 5px;
 }
-
 .botBox .deleteBtn:hover {
   background-color: rgb(47, 47, 47);
 }
-
 .userTxt {
   padding: 0;
   font-size: 0.7rem;

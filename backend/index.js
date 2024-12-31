@@ -1,61 +1,47 @@
 const express = require("express");
 const app = express();
-const cookieParser = require("cookie-parser");
-const cors = require("cors");
-const dotenv = require("dotenv");
-const mongoose = require("mongoose");
-const route = require("./routes/api");
-
-dotenv.config();
-// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+const cookieParser = require("cookie-parser");
+const route = require("../backend/routes/api");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const dotenv = require("dotenv");
+dotenv.config();
 app.use(cookieParser());
-
 // CORS setup
+// app.use(
+//   cors({
+//     origin: "https://formbot-gamo.onrender.com",
+//     credentials: true,
+//   })
+// );
+// app.use(cors());
 app.use(
   cors({
-    origin: "https://formbot-gamo.onrender.com",
-    credentials: true,
+    origin: "http://localhost:5173", // Update this to your frontend URL
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+    credentials: true, // This allows cookies and other credentials to be sent
   })
 );
 
-// Routes
 app.get("/", (req, res) => {
-  res.send("Server successfully launched");
+  res.send("successfully launch");
 });
 app.use("/api", route);
 
-// MongoDB connection
-const connectDB = async () => {
-  const mongoURI = process.env.MONGODB_URI;
-  try {
-    console.log("Attempting to connect to MongoDB...");
-    console.log("MongoDB URI:", mongoURI);
+const mongoURI = process.env.MONGODB_URI;
+const PORT = process.env.PORT;
 
-    await mongoose.connect(mongoURI);
-    console.log("MongoDB connected successfully");
-  } catch (error) {
-    console.error("Error connecting to MongoDB:", error.message);
-    setTimeout(connectDB, 5000);
-  }
-};
-
-// Call the database connection function
-connectDB();
-
-// Server setup
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(err.status || 500).json({
-    error: err.message || "Internal Server Error",
+mongoose
+  .connect(mongoURI)
+  .then(() => {
+    console.log("mongoDB connected successfully");
+  })
+  .catch((err) => {
+    console.log("err from mongoDB", err);
   });
-});
 
-module.exports = app;
+app.listen(PORT, () => {
+  console.log("app is running on port", PORT);
+});

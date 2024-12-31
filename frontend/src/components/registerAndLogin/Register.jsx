@@ -5,7 +5,7 @@ import { IoMdArrowBack } from "react-icons/io";
 import Ellipse2 from "./../../assets/Ellipse2.png";
 import Ellipse1 from "./../../assets/Ellipse1.png";
 import toast from "react-hot-toast";
-
+import axios from "axios";
 const Register = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
@@ -33,19 +33,18 @@ const Register = () => {
       setErrors({});
       const toastId = toast.loading("Loading....");
       try {
-        const res = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/register`,
+        const res = await axios.post(
+          `${import.meta.env.VITE_APP_API_URL}/api/register`,
+          { name, email, password, confirmPassword },
           {
-            method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ name, email, password }),
-            credentials: "include",
+            withCredentials: true,
           }
         );
-        const result = await res.json();
-        if (res.ok) {
+        const result = await res.data;
+        if (res.status === 201) {
           navigate("/login");
           toast.success(result.msg, { id: toastId });
         } else {

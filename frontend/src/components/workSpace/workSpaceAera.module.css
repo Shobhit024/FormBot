@@ -1,23 +1,10 @@
-:root[data-theme="light"] {
-  --background-color: #ffffff;
-  --text-color: #000000;
-  --highlight-color: #7ea6ff;
-}
-
-:root[data-theme="dark"] {
-  --background-color: #000000;
-  --text-color: #ffffff;
-  --highlight-color: #7ea6ff;
-}
-
 .workSpaceMainContainer {
-  background-color: var(--background-color);
+  background-color: #1f1f23;
   width: 100%;
   min-height: 100vh;
-  color: var(--text-color);
+  color: white;
   font-family: "Open Sans", sans-serif;
 }
-
 .workSpaceMainContainer header {
   display: flex;
   justify-content: space-between;
@@ -30,12 +17,10 @@
   width: 100%;
   z-index: 10;
 }
-
 header .left {
   padding-top: 7px;
   margin-left: 10px;
 }
-
 header .left input {
   width: 80%;
   font-size: 14px;
@@ -44,9 +29,7 @@ header .left input {
   height: 25px;
   border: none;
   border-radius: 3px;
-  color: var(--text-color);
 }
-
 header .center {
   display: flex;
   justify-content: space-between;
@@ -54,28 +37,26 @@ header .center {
   gap: 15px;
   font-size: 14px;
   font-weight: 600;
-  color: var(--text-color);
+  color: rgb(203, 202, 202);
+}
+header .center {
   cursor: pointer;
 }
-
 .navTxt {
   padding: 5px 8px;
   border-radius: 6px;
   text-decoration: none;
-  color: var(--text-color);
+  color: white;
 }
-
 .navTxt:hover {
-  color: var(--highlight-color);
+  color: #7ea6ff;
 }
-
 .botText {
-  color: var(--highlight-color);
-  border: 1px solid var(--highlight-color);
+  color: #7ea6ff;
+  border: 1px solid #7ea6ff;
   padding: 5px 8px;
   border-radius: 6px;
 }
-
 header .right {
   display: flex;
   justify-content: space-between;
@@ -84,14 +65,13 @@ header .right {
   font-size: 14px;
   font-weight: 600;
 }
-
 header .right .threeBtn {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
+  outline: none;
 }
-
 header .right .saveBtn {
   background-color: #57ce82;
   padding: 2px 11px;
@@ -100,11 +80,9 @@ header .right .saveBtn {
   border: none;
   font-size: 1.05rem;
 }
-
 header .right .saveBtn:hover {
   background-color: #04ff64;
 }
-
 header .right .updateBtn {
   background-color: #cdd24b;
   color: black;
@@ -114,11 +92,9 @@ header .right .updateBtn {
   border: none;
   font-size: 1.05rem;
 }
-
 header .right .updateBtn:hover {
   background-color: #fbf709;
 }
-
 header .right .notUpdateBtn {
   background-color: #acaca7;
   color: black;
@@ -128,11 +104,6 @@ header .right .notUpdateBtn {
   border: none;
   font-size: 1.05rem;
 }
-
-header .right .notUpdateBtn:hover {
-  background-color: #d9d9d7;
-}
-
 header .right .shareBtn {
   background-color: #3686d2;
   color: black;
@@ -142,11 +113,9 @@ header .right .shareBtn {
   border: none;
   font-size: 1.05rem;
 }
-
 header .right .shareBtn:hover {
   background-color: #0a84ff;
 }
-
 header .right .deleteBtn {
   background-color: #e34040;
   color: rgb(255, 255, 255);
@@ -156,7 +125,6 @@ header .right .deleteBtn {
   border: none;
   font-size: 1.05rem;
 }
-
 header .right .deleteBtn:hover {
   background-color: #ff0000;
 }

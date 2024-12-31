@@ -52,7 +52,7 @@ const Folders = () => {
 
     try {
       const res = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/get_folder_details`,
+        `${import.meta.env.VITE_APP_API_URL}/api/get_folder_details`,
         {
           method: "GET",
           headers: { Authorization: tokenId },
@@ -80,7 +80,7 @@ const Folders = () => {
   const saveFolderFn = async (folderName) => {
     try {
       const res = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/create_folder`,
+        `${import.meta.env.VITE_APP_API_URL}/api/create_folder`,
         {
           method: "POST",
           headers: {
@@ -101,7 +101,7 @@ const Folders = () => {
   const deleteFolderHandler = async (folderId) => {
     try {
       const res = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/delete_folder/${folderId}`,
+        `${import.meta.env.VITE_APP_API_URL}/api/delete_folder/${folderId}`,
         {
           method: "DELETE",
           headers: { Authorization: tokenId },

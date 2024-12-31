@@ -26,6 +26,9 @@
 .formBotHeader img {
   display: inline-block;
 }
+.formBotHeader {
+  display: flex;
+}
 .nameSpace {
   display: flex;
   align-items: center;
@@ -35,9 +38,6 @@
   border: 1px solid rgb(69, 68, 68);
   padding: 10px 15px;
   border-radius: 6px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
 }
 .folderBoxContainer {
   display: flex;
@@ -58,10 +58,14 @@
   border: 1px solid #18181b;
   position: relative;
 }
-.activeBackground,
+.activeBackground {
+  background-color: #191919;
+  border: 1px solid rgb(77, 76, 76);
+}
 .folderBox:hover {
   background-color: #191919;
   border: 1px solid rgb(77, 76, 76);
+  box-sizing: border-box;
 }
 .deleteButton {
   color: #f55050;
@@ -75,7 +79,7 @@
   right: -4px;
 }
 .deleteButton:hover {
-  transform: scale(1.1);
+  scale: 1.1;
 }
 .boxContainer {
   display: flex;
@@ -101,24 +105,23 @@
   cursor: pointer;
   color: white;
   text-decoration: none;
-  transition: background-color 0.3s ease;
 }
 .box:hover {
   background-color: #034bf2;
 }
+
+/* add folder popup */
+
 .addFolderPopup {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 21.5%;
+  left: 40%;
   border: 1px solid rgb(70, 70, 70);
   background-color: black;
   padding: 1px 20px;
   border-radius: 20px;
-  width: 90%;
-  max-width: 400px;
-  height: auto;
-  max-height: 200px;
+  width: 400px;
+  height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -137,6 +140,7 @@
   outline: none;
   border: none;
 }
+
 .cancelCreateBtn {
   background-color: transparent;
   display: flex;

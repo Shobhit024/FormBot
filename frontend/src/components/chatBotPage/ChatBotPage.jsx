@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
 import styles from "./chatBotPage.module.css";
 import { FiSend } from "react-icons/fi";
@@ -6,7 +7,7 @@ import Cookies from "js-cookie";
 
 const ChatBot = () => {
   const [botArray, setBotArray] = useState([]);
-  const [botDetails, setBotDetail] = useState(null);
+  const [botDetails, setBotDetail] = useState();
   const [responses, setResponses] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isBotTyping, setIsBotTyping] = useState(false);
@@ -15,42 +16,43 @@ const ChatBot = () => {
   const [isFinished, setIsFinished] = useState(false);
   const [consecutiveInputs, setConsecutiveInputs] = useState(0);
   const [showCongrats, setShowCongrats] = useState(false);
-  const [formId, setFormId] = useState("");
+  const [formId, setFormId] = useState();
   const param = useParams();
   const tokenId = Cookies.get("tokenId");
 
   const saveBotResponseFn = async () => {
     try {
-      const res = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/bot_response_save/${param.botId}`,
+      const res = await axios.post(
+        `${import.meta.env.VITE_APP_API_URL}/api/bot_response_save/${
+          param.botId
+        }`,
         {
-          method: "POST",
+          responses,
+        },
+        {
           headers: {
             Authorization: tokenId,
             "Content-Type": "application/json",
           },
-          credentials: "include",
-          body: JSON.stringify({ responses }),
+          withCredentials: true,
         }
       );
-      const result = await res.json();
-      if (res.ok) {
-        setFormId(result.formId || "N/A"); // Handle undefined `formId` gracefully
-        setShowCongrats(true);
-      }
+      setFormId(res.data.formId);
+      setShowCongrats(true);
     } catch (error) {
-      console.error("Error saving bot response:", error);
+      console.log(error);
     }
   };
 
   const fetchBotDetails = async () => {
     try {
-      const res = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/bot_form_details/${param.botId}`
+      const res = await axios.get(
+        `${import.meta.env.VITE_APP_API_URL}/api/bot_form_details/${
+          param.botId
+        }`
       );
-      const result = await res.json();
-      setBotArray(result?.botArr || []); // Fallback if `botArr` is undefined
-      setBotDetail(result || {});
+      setBotArray(res.data?.botArr);
+      setBotDetail(res.data);
     } catch (error) {
       console.error("Error fetching bot details:", error);
     }
@@ -107,7 +109,6 @@ const ChatBot = () => {
     setResponses((prev) => [...prev, { category: "Input", value: userInput }]);
     setUserInput("");
     setIsUserInputVisible(false);
-
     setCurrentIndex((prevIndex) => prevIndex + 1);
 
     if (consecutiveInputs > 1) {
@@ -229,12 +230,12 @@ const ChatBot = () => {
                 <>
                   <input
                     autoFocus
-                    type={getInputType(botArray[currentIndex]?.type || "text")}
+                    type={getInputType(botArray[currentIndex].type)}
                     value={userInput}
                     onChange={(e) => setUserInput(e.target.value)}
-                    placeholder={`Enter your ${
-                      botArray[currentIndex]?.type?.toLowerCase() || "input"
-                    }`}
+                    placeholder={`Enter your ${botArray[
+                      currentIndex
+                    ].type.toLowerCase()}`}
                     style={{
                       color:
                         (botDetails?.theme === "dark" && "white") ||
@@ -243,14 +244,10 @@ const ChatBot = () => {
                     }}
                     className={styles.inputBox}
                     min={
-                      botArray[currentIndex]?.type === "Rating"
-                        ? "1"
-                        : undefined
+                      botArray[currentIndex].type === "Rating" ? "1" : undefined
                     }
                     max={
-                      botArray[currentIndex]?.type === "Rating"
-                        ? "5"
-                        : undefined
+                      botArray[currentIndex].type === "Rating" ? "5" : undefined
                     }
                   />
                   <button type="submit" className={styles.sendButton}>
@@ -263,7 +260,9 @@ const ChatBot = () => {
               <div className={styles.finishContainer}>
                 <button
                   className={styles.finishButton}
-                  onClick={saveBotResponseFn}
+                  onClick={() => {
+                    saveBotResponseFn();
+                  }}
                 >
                   Finish
                 </button>
@@ -272,7 +271,7 @@ const ChatBot = () => {
             {showCongrats && (
               <div className={styles.flowerAnimation}>
                 <div className={styles.flowerMessage}>
-                  🎉 Submitted, Your Form Id is: {formId} 🎉
+                  🎉 Submitted, Your Form Id is:- {formId} 🎉
                 </div>
               </div>
             )}
