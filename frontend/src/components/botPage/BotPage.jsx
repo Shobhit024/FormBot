@@ -173,7 +173,7 @@ const BotPage = ({ isBotSaved, skeleton, botDetails }) => {
         </div>
         <div className={style.rightContainer}>
           <div className={style.startTxt}>
-            <img src={flag} alt="" /> {isBotSaved ? "You can Update" : "Start"}
+            <img src={flag} alt="" /> {isBotSaved ? "Start" : "Start"}
           </div>
 
           {skeleton ? (

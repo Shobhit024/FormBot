@@ -1,8 +1,11 @@
+* {
+  margin: 0;
+}
 .signUpFormContainer {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 115vh;
   background-color: #18181b;
   position: relative;
 }
@@ -52,12 +55,13 @@
 
 .formGroupBorder {
   width: 100%;
-  /* padding: 10px; */
-  border-radius: 14px;
+  padding: 8px;
+  border-radius: 12px;
   font-size: 1.3rem;
   border: 1px solid #ccc;
   font-family: "Open Sans", sans-serif;
   font-weight: normal;
+  background-color: transparent;
 }
 
 .borderError {
@@ -90,7 +94,7 @@
 .loginLink {
   margin-top: 20px;
   text-align: center;
-  font-size: 1rem;
+  font-size: 16px;
   font-family: "Open Sans", sans-serif;
 }
 
@@ -101,4 +105,37 @@
 
 .loginLink a:hover {
   text-decoration: underline;
+}
+.or {
+  padding: 15px 0;
+  font-style: Poppins;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.signUpgoogle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 14px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  gap: 10px; /* Adds spacing between the icon and the text */
+}
+
+.GoogleIcon {
+  background-color: #d9d9d9;
+  border-radius: 50%;
+  padding: 5px;
+  width: 24px; /* Adjust icon size */
+  height: 24px; /* Adjust icon size */
+}
+
+.buttonText {
+  display: inline-block;
 }

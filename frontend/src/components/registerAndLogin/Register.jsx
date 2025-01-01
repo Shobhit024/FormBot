@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
 import Ellipse2 from "./../../assets/Ellipse2.png";
 import Ellipse1 from "./../../assets/Ellipse1.png";
+import GoogleIcon from "./../../assets/Google Icon.png";
+import tringle from "./../../assets/tringle.png";
 import toast from "react-hot-toast";
 import axios from "axios";
 const Register = () => {
@@ -63,11 +65,16 @@ const Register = () => {
         className={style.backIcon}
         onClick={() => navigate(-1)}
       />
+      <img
+        className={style.tringleImg}
+        src={tringle}
+        alt="Triangle decoration"
+      />
       <img className={style.Ellipse1} src={Ellipse1} alt="Ellipse" />
       <img className={style.Ellipse2} src={Ellipse2} alt="Ellipse" />
       <form onSubmit={handleSubmit} className={style.signUpForm}>
         <div className={style.formGroup}>
-          <label htmlFor="name">Name</label>
+          <label htmlFor="name">Username</label>
           <input
             type="text"
             placeholder="Enter a name"
@@ -126,6 +133,15 @@ const Register = () => {
         </div>
         <button type="submit" className={style.signUpButton}>
           Sign Up
+        </button>
+        <p className={style.or}>or</p>
+        <button type="submit" className={style.signUpgoogle}>
+          <img
+            className={style.GoogleIcon}
+            src={GoogleIcon}
+            alt="Google Icon"
+          />
+          Sign In with Google
         </button>
         <p className={style.loginLink}>
           Already have an account? <Link to={"/login"}>Login</Link>

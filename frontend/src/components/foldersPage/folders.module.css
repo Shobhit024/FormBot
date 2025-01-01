@@ -15,6 +15,17 @@
   padding: 0 10%;
   border-bottom: 1px solid rgb(61, 61, 61);
 }
+.shareBtn {
+  background-color: #1a5fff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-left: 1rem;
+}
+
 .formBotHeader {
   display: flex;
   align-items: center;
@@ -29,16 +40,32 @@
 .formBotHeader {
   display: flex;
 }
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 30px;
+}
+
 .nameSpace {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   font-weight: 600;
   font-size: 0.9rem;
   border: 1px solid rgb(69, 68, 68);
   padding: 10px 15px;
   border-radius: 6px;
+  margin: 0 auto;
 }
+
+header > div {
+  display: flex;
+  align-items: center;
+}
+
 .folderBoxContainer {
   display: flex;
   flex-wrap: wrap;
@@ -59,6 +86,7 @@
   position: relative;
 }
 .activeBackground {
+  display: none;
   background-color: #191919;
   border: 1px solid rgb(77, 76, 76);
 }
@@ -160,4 +188,75 @@
 .stand {
   font-size: 1.7rem;
   color: rgb(64, 64, 64);
+}
+
+.checkbox {
+  display: none;
+}
+
+.label {
+  position: relative;
+  width: 50px;
+  height: 25px;
+  background-color: #034bf2;
+  border-radius: 25px;
+  cursor: pointer;
+  padding: 0px 25px;
+}
+
+.lightLabel {
+  padding: 0px 5px;
+}
+.darkLabel {
+  padding: 0px 5px;
+  padding-right: 50px;
+}
+.slider {
+  position: absolute;
+
+  top: 2px;
+  left: 5px;
+  right: 5px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: white;
+  transition: 0.3s;
+}
+
+.checkbox:checked + .label .slider {
+  transform: translateX(25px);
+}
+
+/* Light Mode Styles */
+body[data-theme="light"] {
+  background-color: #fff;
+  color: black;
+}
+
+body[data-theme="light"] .mainPage {
+  background-color: #fff;
+  color: black;
+}
+
+body[data-theme="light"] .folderBox {
+  color: black;
+  background-color: #e5e5e5;
+  border: 1px solid #ccc;
+}
+
+/* Dark Mode Styles */
+body[data-theme="dark"] {
+  background-color: #18181b;
+  color: white;
+}
+
+body[data-theme="dark"] .mainPage {
+  background-color: #18181b;
+  color: white;
+}
+
+body[data-theme="dark"] .folderBox {
+  background-color: #2a2a2d;
+  border: 1px solid #18181b;
 }

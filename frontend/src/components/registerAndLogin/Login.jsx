@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
 import Ellipse2 from "./../../assets/Ellipse2.png";
 import Ellipse1 from "./../../assets/Ellipse1.png";
+import GoogleIcon from "./../../assets/Google Icon.png";
 import tringle from "./../../assets/tringle.png";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
@@ -119,7 +120,16 @@ const Login = () => {
           {errors.password && <p className={style.error}>{errors.password}</p>}
         </div>
         <button type="submit" className={style.signUpButton}>
-          Sign In
+          Log In
+        </button>
+        <p className={style.or}>or</p>
+        <button type="submit" className={style.signUpgoogle}>
+          <img
+            className={style.GoogleIcon}
+            src={GoogleIcon}
+            alt="Google Icon"
+          />
+          Sign In with Google
         </button>
         <p className={style.loginLink}>
           Don't have an account? <Link to={"/register"}>Register Now</Link>

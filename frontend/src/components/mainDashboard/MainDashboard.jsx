@@ -87,7 +87,9 @@ const MainDashboard = () => {
         <div className={style.hero}>
           <img src={rotateImg1} alt="" />
           <div className={style.heroTextArea}>
-            <h1 className={style.h1Text}>Build advanced chatbots visually</h1>
+            <h1 className={style.h1Text}>
+              Build advanced chatbots <br></br> visually
+            </h1>
             <p className={style.pText}>
               Typebot gives you powerful blocks to create unique chat
               experiences. Embed them anywhere on your web/mobile apps and start

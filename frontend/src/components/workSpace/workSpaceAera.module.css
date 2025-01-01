@@ -1,3 +1,10 @@
+:root {
+  --bg-light: #ffffff;
+  --text-light: #000000;
+  --bg-dark: #18181b;
+  --text-dark: #ffffff;
+  --accent-dark: #7ea6ff;
+}
 .workSpaceMainContainer {
   background-color: #1f1f23;
   width: 100%;
@@ -72,40 +79,9 @@ header .right .threeBtn {
   gap: 10px;
   outline: none;
 }
-header .right .saveBtn {
-  background-color: #57ce82;
-  padding: 2px 11px;
-  border-radius: 6px;
-  cursor: pointer;
-  border: none;
-  font-size: 1.05rem;
-}
-header .right .saveBtn:hover {
-  background-color: #04ff64;
-}
-header .right .updateBtn {
-  background-color: #cdd24b;
-  color: black;
-  padding: 2px 11px;
-  border-radius: 6px;
-  cursor: pointer;
-  border: none;
-  font-size: 1.05rem;
-}
-header .right .updateBtn:hover {
-  background-color: #fbf709;
-}
-header .right .notUpdateBtn {
-  background-color: #acaca7;
-  color: black;
-  padding: 2px 11px;
-  border-radius: 6px;
-  cursor: pointer;
-  border: none;
-  font-size: 1.05rem;
-}
+
 header .right .shareBtn {
-  background-color: #3686d2;
+  background-color: #848890;
   color: black;
   padding: 2px 11px;
   border-radius: 6px;
@@ -116,15 +92,174 @@ header .right .shareBtn {
 header .right .shareBtn:hover {
   background-color: #0a84ff;
 }
-header .right .deleteBtn {
-  background-color: #e34040;
-  color: rgb(255, 255, 255);
+header .right .saveBtn {
+  background-color: #57ce82;
   padding: 2px 11px;
   border-radius: 6px;
   cursor: pointer;
   border: none;
   font-size: 1.05rem;
 }
-header .right .deleteBtn:hover {
-  background-color: #ff0000;
+header .right .notUpdateBtn {
+  background-color: #57ce82;
+  padding: 2px 11px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  font-size: 1.05rem;
+}
+
+header .right .saveBtn:hover {
+  background-color: #04ff64;
+}
+
+.checkbox {
+  display: none;
+}
+
+.label {
+  position: relative;
+  width: 50px;
+  height: 25px;
+  background-color: #034bf2;
+  border-radius: 25px;
+  cursor: pointer;
+  padding: 0px 25px;
+}
+
+.lightLabel {
+  padding: 0px 5px;
+}
+.darkLabel {
+  padding: 0px 5px;
+  padding-right: 50px;
+}
+.slider {
+  position: absolute;
+
+  top: 2px;
+  left: 5px;
+  right: 5px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: white;
+  transition: 0.3s;
+}
+
+.checkbox:checked + .label .slider {
+  transform: translateX(25px);
+}
+
+:root {
+  --bg-light: #ffffff;
+  --text-light: #000000;
+  --bg-dark: #18181b;
+  --text-dark: #ffffff;
+  --accent-light: #034bf2;
+  --accent-dark: #7ea6ff;
+}
+
+body[data-theme="light"] {
+  --bg-color: var(--bg-light);
+  --text-color: var(--text-light);
+  --accent-color: var(--accent-light);
+}
+
+body[data-theme="dark"] {
+  --bg-color: var(--bg-dark);
+  --text-color: var(--text-dark);
+  --accent-color: var(--accent-dark);
+}
+
+.workSpaceMainContainer {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  width: 100%;
+  min-height: 100vh;
+  font-family: "Open Sans", sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  padding-inline: 20px;
+  height: 60px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: fixed;
+  width: 100%;
+  z-index: 10;
+}
+
+header .navTxt {
+  color: var(--text-color);
+}
+
+header .navTxt:hover {
+  color: var(--accent-color);
+}
+
+header .right .shareBtn {
+  background-color: var(--accent-color);
+  color: var(--bg-color);
+  border: none;
+  border-radius: 6px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+header .right .saveBtn {
+  background-color: var(--accent-color);
+  color: var(--bg-color);
+  border: none;
+  border-radius: 6px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+header .right .shareBtn:hover,
+header .right .saveBtn:hover {
+  background-color: var(--text-color);
+  color: var(--bg-color);
+}
+
+.checkbox {
+  display: none;
+}
+
+.label {
+  position: relative;
+  width: 50px;
+  height: 25px;
+  background-color: var(--accent-color);
+  border-radius: 25px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.label .slider {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  background-color: var(--bg-color);
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+.checkbox:checked + .label .slider {
+  transform: translateX(25px);
+}
+
+.lightLabel,
+.darkLabel {
+  font-size: 14px;
+  color: var(--text-color);
+  margin: 0 5px;
 }

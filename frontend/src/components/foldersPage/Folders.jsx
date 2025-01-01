@@ -9,6 +9,7 @@ import Folders_skeleton from "./Folders_skeleton";
 import icon from "./../../assets/icon.png";
 import { setBotUpdate } from "../../redux/botUpdateSlice";
 import { useDispatch } from "react-redux";
+
 import Cookies from "js-cookie";
 
 const Folders = () => {
@@ -25,6 +26,23 @@ const Folders = () => {
   const [skeleton, setSkeleton] = useState(true);
   const params = useParams();
   const [userName, setUserName] = useState("");
+
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  const isDarkMode = theme === "dark";
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.body.setAttribute("data-theme", "dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.body.setAttribute("data-theme", "light");
+      localStorage.setItem("theme", "light");
+    }
+  }, [isDarkMode]);
+
+  const toggleTheme = () => {
+    setTheme(isDarkMode ? "light" : "dark");
+  };
 
   const folderInputHandler = () => {
     if (!folderName.trim()) {
@@ -77,27 +95,6 @@ const Folders = () => {
     fetchFolderFn();
   }, [fetchFolderFn]);
 
-  const saveFolderFn = async (folderName) => {
-    try {
-      const res = await fetch(
-        `${import.meta.env.VITE_APP_API_URL}/api/create_folder`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: tokenId,
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({ folderName }),
-        }
-      );
-      if (!res.ok) throw new Error("Failed to create folder");
-      await fetchFolderFn();
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
-
   const deleteFolderHandler = async (folderId) => {
     try {
       const res = await fetch(
@@ -134,6 +131,48 @@ const Folders = () => {
     dispatch(setBotUpdate({}));
   }, [dispatch]);
 
+  // Share Button Logic
+  const handleShare = () => {
+    const shareData = {
+      title: "Folder Details",
+      text: `Check out the folder details: ${window.location.href}`,
+    };
+
+    if (navigator.share) {
+      navigator
+        .share(shareData)
+        .then(() => toast.success("Folder shared successfully!"))
+        .catch((error) => toast.error(`Error sharing: ${error.message}`));
+    } else {
+      navigator.clipboard.writeText(shareData.text);
+      toast.success("Link copied to clipboard!");
+    }
+  };
+
+  const saveFolderFn = async (folderName) => {
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_APP_API_URL}/api/create_folder`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: tokenId,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ folderName }),
+          credentials: "include",
+        }
+      );
+      if (!res.ok) {
+        throw new Error("Failed to create folder.");
+      }
+      toast.success("Folder created successfully!");
+      fetchFolderFn(); // Refresh folders
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   return (
     <>
       {skeleton ? (
@@ -148,11 +187,25 @@ const Folders = () => {
           }}
         >
           <header>
-            <div onClick={() => navigate("/")} className={style.formBotHeader}>
-              <img src={icon} alt="FormBot Icon" />
-              <div>FormBot</div>
+            <div className={style.nameSpace}> {userName}'s workspace</div>
+            <div>
+              <span className={style.lightLabel}>Light</span>
+              <input
+                type="checkbox"
+                className={style.checkbox}
+                id="themeToggle"
+                checked={theme === "dark"}
+                onChange={toggleTheme}
+              />
+              <label className={style.label} htmlFor="themeToggle">
+                <span className={style.slider}></span>
+              </label>
+              <span className={style.darkLabel}>Dark</span>
+
+              <button onClick={handleShare} className={style.shareBtn}>
+                Share
+              </button>
             </div>
-            <div className={style.nameSpace}>Hi 👋🏻 {userName}</div>
           </header>
           <div className={style.folderBoxContainer}>
             <div
@@ -227,38 +280,39 @@ const Folders = () => {
                 >
                   Done
                 </button>
-                <div className={style.stand}>|</div>
-                <button
-                  onClick={() => {
-                    setShowCreateFolder(false);
-                  }}
+                <div
+                  onClick={() => setShowCreateFolder(false)}
+                  style={{ cursor: "pointer" }}
                 >
                   Cancel
-                </button>
+                </div>
               </div>
             </div>
           )}
           {showFolderDelete.display && (
-            <div className={style.addFolderPopup}>
-              <h1>Are you sure you want to delete this folder?</h1>
-              <div className={style.cancelCreateBtn}>
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className={style.deleteFolderPopup}
+            >
+              <h1>Are you sure you want to delete?</h1>
+              <div className={style.deleteBtns}>
                 <button
-                  style={{ color: "#4B83FF" }}
                   onClick={() => {
                     deleteFolderHandler(showFolderDelete.folderId);
                     setShowFolderDelete({ display: false, folderId: "" });
                   }}
+                  className={style.delete}
                 >
-                  Confirm
+                  Yes
                 </button>
-                <div className={style.stand}>|</div>
-                <button
+                <div
                   onClick={() => {
                     setShowFolderDelete({ display: false, folderId: "" });
                   }}
+                  className={style.cancel}
                 >
-                  Cancel
-                </button>
+                  No
+                </div>
               </div>
             </div>
           )}

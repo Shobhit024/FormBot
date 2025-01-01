@@ -6,14 +6,13 @@ import {
   NavLink,
   useParams,
 } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { RxCross2 } from "react-icons/rx";
 import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 import { setBot } from "../../redux/botSlice";
 import style from "./workSpaceAera.module.css";
 import BotPage from "../botPage/BotPage";
 import ResponsePage from "../responsePage/ResponsePage";
-import { setBotUpdate } from "../../redux/botUpdateSlice";
 import Cookies from "js-cookie";
 import axios from "axios";
 
@@ -30,44 +29,8 @@ const WorkSpaceArea = ({ isBotSaved }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const mainRoute = location.pathname.split("/")[3];
-
-  const hasChanges = useCallback(() => {
-    return (
-      botDetails?.length !== 0 &&
-      updateData.botArr?.length !== 0 &&
-      JSON.stringify(botDetails[0]) !== JSON.stringify(updateData)
-    );
-  }, [botDetails, updateData]);
-
-  const handleBotSave = async () => {
-    if (!data?.botName) return toast.error("Please enter a bot name.");
-    if (data?.botArr?.length === 0) return toast.error("Bot can't be empty.");
-
-    const toastId = toast.loading("Creating...");
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_APP_API_URL}/api/save_bot`,
-        { data, folder: folderName },
-        {
-          headers: {
-            Authorization: tokenId,
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
-      if (response.status === 200) {
-        toast.success(response.data.msg, { id: toastId, duration: 1000 });
-        localStorage.removeItem("storeBot");
-        navigate(`/folder/${folderName}`);
-      } else {
-        toast.error(response.data.msg, { id: toastId, duration: 1000 });
-      }
-    } catch (error) {
-      toast.error(error.message, { duration: 1000 });
-      navigate("/");
-    }
-  };
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  const isDarkMode = theme === "dark";
 
   const handleBotNameChange = (e) => {
     const newBotName = e.target.value;
@@ -111,15 +74,51 @@ const WorkSpaceArea = ({ isBotSaved }) => {
     }
   }, [navigate, folderName, botName, tokenId]);
 
-  const handleBotUpdate = async () => {
-    if (!hasChanges())
-      return toast.error("No changes detected.", { duration: 700 });
+  const toggleTheme = () => {
+    setTheme(isDarkMode ? "light" : "dark");
+  };
 
-    const toastId = toast.loading("Updating...");
+  useEffect(() => {
+    if (isDarkMode) {
+      document.body.setAttribute("data-theme", "dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.body.setAttribute("data-theme", "light");
+      localStorage.setItem("theme", "light");
+    }
+  }, [isDarkMode]);
+
+  const handleShare = () => {
+    const shareData = {
+      title: "Folder Details",
+      text: `Check out the folder details: ${window.location.href}`,
+    };
+
+    if (navigator.share) {
+      navigator
+        .share(shareData)
+        .then(() => toast.success("Folder shared successfully!"))
+        .catch((error) => toast.error(`Error sharing: ${error.message}`));
+    } else {
+      navigator.clipboard.writeText(shareData.text);
+      toast.success("Link copied to clipboard!");
+    }
+  };
+
+  useEffect(() => {
+    if (folderName && botName) {
+      fetchFolderDetails();
+    }
+  }, [fetchFolderDetails, folderName, botName]);
+  const handleBotSave = async () => {
+    if (!data?.botName) return toast.error("Please enter a bot name.");
+    if (data?.botArr?.length === 0) return toast.error("Bot can't be empty.");
+
+    const toastId = toast.loading("Creating...");
     try {
-      const response = await axios.patch(
-        `${import.meta.env.VITE_APP_API_URL}/api/bot_update/${botId}`,
-        updateData,
+      const response = await axios.post(
+        `${import.meta.env.VITE_APP_API_URL}/api/save_bot`,
+        { data, folder: folderName },
         {
           headers: {
             Authorization: tokenId,
@@ -130,45 +129,16 @@ const WorkSpaceArea = ({ isBotSaved }) => {
       );
       if (response.status === 200) {
         toast.success(response.data.msg, { id: toastId, duration: 1000 });
+        localStorage.removeItem("storeBot");
         navigate(`/folder/${folderName}`);
       } else {
         toast.error(response.data.msg, { id: toastId, duration: 1000 });
       }
     } catch (error) {
       toast.error(error.message, { duration: 1000 });
+      navigate("/");
     }
   };
-
-  const handleBotDelete = async () => {
-    const toastId = toast.loading("Deleting...");
-    try {
-      const response = await axios.delete(
-        `${import.meta.env.VITE_APP_API_URL}/api/bot_delete/${botId}`,
-        {
-          headers: {
-            Authorization: tokenId,
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-          data: { folderName },
-        }
-      );
-      if (response.status === 200) {
-        toast.success(response.data.msg, { id: toastId });
-        navigate(`/folder/${folderName}`);
-      } else {
-        toast.error(response.data.msg, { id: toastId });
-      }
-    } catch (error) {
-      toast.error(error.message, { duration: 1000 });
-    }
-  };
-
-  useEffect(() => {
-    if (folderName && botName) {
-      fetchFolderDetails();
-    }
-  }, [fetchFolderDetails, folderName, botName]);
 
   return (
     <div className={style.workSpaceMainContainer}>
@@ -195,42 +165,41 @@ const WorkSpaceArea = ({ isBotSaved }) => {
             Flow
           </NavLink>
 
-          {isBotSaved && (
-            <NavLink
-              to={`/folder/${folderName}/response/${botName}/${botId}`}
-              className={({ isActive }) =>
-                `${isActive ? style.botText : ""} ${style.navTxt}`
-              }
-            >
-              Response
-            </NavLink>
-          )}
+          <NavLink
+            to={`/folder/${folderName}/response/${botName}/${botId}`}
+            className={({ isActive }) =>
+              `${isActive ? style.botText : ""} ${style.navTxt}`
+            }
+          >
+            Response
+          </NavLink>
         </div>
         <div className={style.right}>
-          {isBotSaved ? (
-            <div className={style.threeBtn}>
-              <button onClick={handleBotDelete} className={style.deleteBtn}>
-                Delete
-              </button>
-              <button
-                onClick={handleBotUpdate}
-                className={hasChanges() ? style.updateBtn : style.notUpdateBtn}
-              >
-                Update
-              </button>
-            </div>
-          ) : (
-            <button
-              onClick={handleBotSave}
-              className={
-                data?.botArr?.length !== 0 && data?.botName?.length !== 0
-                  ? style.saveBtn
-                  : style.notUpdateBtn
-              }
-            >
-              Save
-            </button>
-          )}
+          <span className={style.lightLabel}>Light</span>
+          <input
+            type="checkbox"
+            className={style.checkbox}
+            id="themeToggle"
+            checked={theme === "dark"}
+            onChange={toggleTheme}
+          />
+          <label className={style.label} htmlFor="themeToggle">
+            <span className={style.slider}></span>
+          </label>
+          <span className={style.darkLabel}>Dark</span>
+          <button onClick={handleShare} className={style.shareBtn}>
+            Share
+          </button>
+          <button
+            onClick={handleBotSave}
+            className={
+              data?.botArr?.length !== 0 && data?.botName?.length !== 0
+                ? style.saveBtn
+                : style.notUpdateBtn
+            }
+          >
+            Save
+          </button>
           <div
             onClick={() => navigate("/folder/main")}
             style={{ color: "#F55050", fontSize: "1.4rem", cursor: "pointer" }}
