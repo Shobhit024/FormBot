@@ -6,9 +6,11 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { NavLink, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Folders_skeleton from "./Folders_skeleton";
+
 import icon from "./../../assets/icon.png";
 import { setBotUpdate } from "../../redux/botUpdateSlice";
 import { useDispatch } from "react-redux";
+import axios from "axios";
 
 import Cookies from "js-cookie";
 
@@ -30,6 +32,52 @@ const Folders = () => {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   const isDarkMode = theme === "dark";
 
+  // logout handler
+  const apiUrl = import.meta.env.VITE_APP_API_URL;
+  const logoutHandler = async () => {
+    try {
+      if (!tokenId) {
+        toast.error("You are not authenticated.");
+        navigate("/login");
+        return;
+      }
+
+      const res = await axios.post(
+        `${apiUrl}/api/logout`,
+        {},
+        {
+          headers: {
+            Authorization: tokenId,
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+
+      if (res.status >= 200 && res.status < 300) {
+        Cookies.remove("tokenId");
+        toast.success(res.data.msg || "Logged out successfully", {
+          duration: 100,
+        });
+        localStorage.removeItem("authState");
+        sessionStorage.clear();
+        navigate("/login");
+      } else {
+        throw new Error("Logout failed");
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.msg || "Logout failed");
+      console.log(error);
+    }
+  };
+
+  // for header drop down
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prevState) => !prevState);
+  };
   useEffect(() => {
     if (isDarkMode) {
       document.body.setAttribute("data-theme", "dark");
@@ -187,7 +235,20 @@ const Folders = () => {
           }}
         >
           <header>
-            <div className={style.nameSpace}> {userName}'s workspace</div>
+            <div className={style.nameSpace}>
+              <div onClick={toggleDropdown} className={style.dropdownButton}>
+                {userName}'s workspace ▼
+              </div>
+              {isDropdownOpen && (
+                <div className={style.dropdownMenu}>
+                  <div className={style.dropdownItem}>Settings</div>
+                  <div onClick={logoutHandler} className={style.dropdownItem1}>
+                    Log Out
+                  </div>
+                </div>
+              )}
+            </div>
+
             <div>
               <span className={style.lightLabel}>Light</span>
               <input
@@ -217,20 +278,19 @@ const Folders = () => {
             >
               <HiOutlineFolderPlus /> Create a folder
             </div>
-            {foldersArr.map((folder) => (
+            {foldersArr?.map((folder) => (
               <NavLink
                 key={folder._id}
                 to={`/folder/${folder.folderName}`}
                 className={({ isActive }) =>
-                  `${isActive ? style.activeBackground : ""} ${style.folderBox}`
+                  `${isActive && style.activeBackground} ${style.folderBox}`
                 }
               >
                 {folder.folderName}
                 {folder.folderName !== "main" && (
                   <RiDeleteBin6Line
                     className={style.deleteButton}
-                    onClick={(e) => {
-                      e.stopPropagation();
+                    onClick={() => {
                       setShowFolderDelete({
                         display: true,
                         folderId: folder._id,
@@ -290,29 +350,35 @@ const Folders = () => {
             </div>
           )}
           {showFolderDelete.display && (
-            <div
-              onClick={(e) => e.stopPropagation()}
-              className={style.deleteFolderPopup}
-            >
-              <h1>Are you sure you want to delete?</h1>
-              <div className={style.deleteBtns}>
+            <div className={style.addFolderPopup}>
+              <h1 style={{ textAlign: "center" }}>
+                Are you sure you want to delete this folder ?{" "}
+                {showFolderDelete.index}
+              </h1>
+              <div className={style.cancelCreateBtn}>
+                <button
+                  style={{ color: "#4B83FF" }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setShowFolderDelete({ display: false });
+                    const findIndex = foldersArr.findIndex(
+                      (folder) => folder._id == showFolderDelete.folderId
+                    );
+                    foldersArr.splice(findIndex, 1);
+                    navigate("/folder/main");
+                    deleteFolderHandler(showFolderDelete.folderId);
+                  }}
+                >
+                  Confirm
+                </button>
+                <div className={style.stand}>|</div>
                 <button
                   onClick={() => {
-                    deleteFolderHandler(showFolderDelete.folderId);
-                    setShowFolderDelete({ display: false, folderId: "" });
+                    setShowFolderDelete({ display: false });
                   }}
-                  className={style.delete}
                 >
-                  Yes
+                  Cancel
                 </button>
-                <div
-                  onClick={() => {
-                    setShowFolderDelete({ display: false, folderId: "" });
-                  }}
-                  className={style.cancel}
-                >
-                  No
-                </div>
               </div>
             </div>
           )}

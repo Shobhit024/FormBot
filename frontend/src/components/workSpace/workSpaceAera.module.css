@@ -113,9 +113,18 @@ header .right .threeBtn {
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 }
-header .right .shareBtn,
-header .right .saveBtn {
+header .right .shareBtn {
   background-color: var(--accent-color);
+  color: var(--bg-color);
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: none;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+.header .right .saveBtn {
+  background-color: #4ade80cc;
   color: var(--bg-color);
   padding: 5px 10px;
   border-radius: 6px;

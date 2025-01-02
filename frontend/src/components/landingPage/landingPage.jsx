@@ -1,4 +1,4 @@
-import style from "./mainDashboard.module.css";
+import style from "./landingPage.module.css";
 import icon from "./../../assets/icon.png";
 import rotateImg1 from "./../../assets/rotateImg1.png";
 import rotateImg2 from "./../../assets/rotateImg2.png";
@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
 
-const MainDashboard = () => {
+const LandingPage = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
@@ -178,4 +178,4 @@ const MainDashboard = () => {
   );
 };
 
-export default MainDashboard;
+export default LandingPage;

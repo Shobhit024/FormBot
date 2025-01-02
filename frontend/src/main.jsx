@@ -4,7 +4,7 @@ import "./index.css";
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Register from "./components/registerAndLogin/Register.jsx";
-import MainDashboard from "./components/mainDashboard/MainDashboard.jsx";
+import LandingPage from "./components/landingPage/landingPage.jsx";
 import Login from "./components/registerAndLogin/Login.jsx";
 import Folders from "./components/foldersPage/Folders.jsx";
 import WorkSpaceArea from "./components/workSpace/WorkSpaceArea.jsx";
@@ -22,7 +22,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <MainDashboard />,
+        element: <LandingPage />,
       },
       {
         path: "register",
@@ -32,6 +32,7 @@ const router = createBrowserRouter([
         path: "login",
         element: <Login />,
       },
+
       {
         path: "/skeleton",
         element: <Folders_skeleton />,

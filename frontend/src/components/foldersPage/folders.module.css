@@ -47,19 +47,50 @@ header {
   width: 100%;
   padding: 10px 30px;
 }
+.dropdownMenu {
+  padding-top: 10px;
+}
 
 .nameSpace {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  margin: 0 auto;
+}
+
+.dropdownButton {
   gap: 10px;
   font-weight: 600;
   font-size: 0.9rem;
   border: 1px solid rgb(69, 68, 68);
   padding: 10px 15px;
   border-radius: 6px;
-  margin: 0 auto;
 }
+
+.dropdownItem1 {
+  color: #ffa54c;
+  cursor: pointer;
+}
+
+.dropdownItem,
+.dropdownItem1 {
+  gap: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: 1px solid rgb(69, 68, 68);
+  padding: 10px 70px;
+  border-radius: 6px;
+}
+
+.dropdownMenu {
+  margin-left: -50%;
+  margin-top: 30%;
+}
+/* .dropdownItem {
+  border: 1px solid rgb(69, 68, 68);
+  padding: 10px 50px;
+} */
 
 header > div {
   display: flex;
@@ -143,9 +174,9 @@ header > div {
 .addFolderPopup {
   position: absolute;
   top: 21.5%;
-  left: 40%;
+  left: 45%;
   border: 1px solid rgb(70, 70, 70);
-  background-color: black;
+
   padding: 1px 20px;
   border-radius: 20px;
   width: 400px;
@@ -160,10 +191,9 @@ header > div {
   padding-bottom: 20px;
 }
 .addFolderPopup input {
-  background-color: #1f1f23;
   border-radius: 12px;
   height: 50px;
-  color: #a1a1a1;
+
   font-weight: 600;
   outline: none;
   border: none;
@@ -239,7 +269,26 @@ body[data-theme="light"] .mainPage {
   color: black;
 }
 
+body[data-theme="light"] .addFolderPopup {
+  background-color: #fff;
+  color: black;
+}
+
+body[data-theme="light"] .addFolderPopup input {
+  background-color: #fff;
+  color: black;
+}
+
+body[data-theme="light"] .addFolderPopup h1 {
+  background-color: #fff;
+  color: black;
+}
 body[data-theme="light"] .folderBox {
+  color: black;
+  background-color: #e5e5e5;
+  border: 1px solid #ccc;
+}
+body[data-theme="light"] .dropdownButton {
   color: black;
   background-color: #e5e5e5;
   border: 1px solid #ccc;
@@ -250,8 +299,27 @@ body[data-theme="dark"] {
   background-color: #18181b;
   color: white;
 }
+body[data-theme="dark"] .addFolderPopup h1 {
+  background-color: #18181b;
+  color: white;
+}
+
+body[data-theme="dark"] .addFolderPopup {
+  background-color: #18181b;
+  color: white;
+}
+
+body[data-theme="dark"] .addFolderPopup input {
+  background-color: #18181b;
+  color: white;
+}
 
 body[data-theme="dark"] .mainPage {
+  background-color: #18181b;
+  color: white;
+}
+
+body[data-theme="dark"] .dropdownButton {
   background-color: #18181b;
   color: white;
 }
