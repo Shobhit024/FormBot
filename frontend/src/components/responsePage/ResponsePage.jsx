@@ -92,10 +92,12 @@ const ResponsePage = () => {
         <table>
           <thead>
             <tr>
-              <th scope="col">Response Id</th>
-              <th scope="col">First Question</th>
-              <th scope="col">First Answer</th>
               <th scope="col">Submitted at</th>
+              <th scope="col">Button 1</th>
+              <th scope="col">Email 1</th>
+              <th scope="col">Text 1</th>
+              <th scope="col">Button 2</th>
+              <th scope="col">Rating 1</th>
             </tr>
           </thead>
           <tbody>
