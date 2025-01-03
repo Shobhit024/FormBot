@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
 dotenv.config();
-app.use(cookieParser());
+
 // CORS setup
 // app.use(
 //   cors({
@@ -17,13 +17,16 @@ app.use(cookieParser());
 //   })
 // );
 // app.use(cors());
-app.use(
-  cors({
-    origin: "https://formbot-gamo.onrender.com", // Update this to your frontend URL
-    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
-    credentials: true, // This allows cookies and other credentials to be sent
-  })
-);
+// app.use(
+//   cors({
+//     origin: ["http://localhost:5173"], // Update this to your frontend URL
+//     methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+//     credentials: true, // This allows cookies and other credentials to be sent
+//   })
+// );
+
+app.use(cookieParser());
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("successfully launch");
