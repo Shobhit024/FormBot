@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://formbot-gamo.onrender.com",
+        target: "https://form-bot-beta.vercel.app",
         changeOrigin: true,
         secure: false,
       },
