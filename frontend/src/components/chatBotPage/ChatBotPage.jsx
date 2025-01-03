@@ -21,6 +21,7 @@ const ChatBot = () => {
   const tokenId = Cookies.get("tokenId");
 
   const saveBotResponseFn = async () => {
+    const tokenId = Cookies.get("tokenId");
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_APP_API_URL}/api/bot_response_save/${
@@ -31,7 +32,7 @@ const ChatBot = () => {
         },
         {
           headers: {
-            Authorization: tokenId,
+            Authorization: `Bearer ${tokenId}`,
             "Content-Type": "application/json",
           },
           withCredentials: true,

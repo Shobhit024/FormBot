@@ -311,14 +311,22 @@ route.get("/get_bot_response/:botId", async (req, res) => {
 //check auth via jwt
 function checkAuth(req, res, next) {
   const token = req.headers["authorization"];
-  console.log(token);
-  if (!token) return res.status(401).json({ msg: "Unauthorized" });
+
+  if (!token) {
+    return res.status(401).json({ msg: "Unauthorized" });
+  }
+  const bearerToken = token.split(" ")[1];
+
+  if (!bearerToken) {
+    return res.status(401).json({ msg: "Unauthorized: No token provided" });
+  }
+
   try {
-    const user = jwt.verify(token, process.env.JWT_SECRET);
+    const user = jwt.verify(bearerToken, process.env.JWT_SECRET);
     req.loginUser = user.user;
     next();
   } catch (error) {
-    return res.status(401).json({ msg: "Unauthorized" });
+    return res.status(401).json({ msg: "Unauthorized: Invalid token" });
   }
 }
 

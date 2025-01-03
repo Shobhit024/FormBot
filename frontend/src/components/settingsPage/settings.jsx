@@ -31,14 +31,20 @@ const SettingsPage = () => {
     } else {
       setErrors({});
       const toastId = toast.loading("Updating...");
-      const tokenId = Cookies.get("token");
+      const tokenId = Cookies.get("tokenId");
+      console.log("Token from cookies:", tokenId);
+      if (!tokenId) {
+        toast.error("You are not authenticated.");
+        navigate("/login");
+        return;
+      }
       try {
         const res = await axios.post(
           `${import.meta.env.VITE_APP_API_URL}/api/update_settings`,
           { name, email, oldPassword, newPassword },
           {
             headers: {
-              Authorization: tokenId,
+              Authorization: `Bearer ${tokenId}`,
               "Content-Type": "application/json",
             },
             withCredentials: true,
@@ -58,6 +64,7 @@ const SettingsPage = () => {
   // logout handler
   const apiUrl = import.meta.env.VITE_APP_API_URL;
   const logoutHandler = async () => {
+    const tokenId = Cookies.get("tokenId");
     try {
       if (!tokenId) {
         toast.error("You are not authenticated.");
@@ -70,7 +77,7 @@ const SettingsPage = () => {
         {},
         {
           headers: {
-            Authorization: tokenId,
+            Authorization: `Bearer ${tokenId}`,
             "Content-Type": "application/json",
           },
           withCredentials: true,

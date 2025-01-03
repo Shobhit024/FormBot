@@ -35,6 +35,7 @@ const Folders = () => {
   // logout handler
   const apiUrl = import.meta.env.VITE_APP_API_URL;
   const logoutHandler = async () => {
+    const tokenId = Cookies.get("tokenId");
     try {
       if (!tokenId) {
         toast.error("You are not authenticated.");
@@ -47,7 +48,7 @@ const Folders = () => {
         {},
         {
           headers: {
-            Authorization: tokenId,
+            Authorization: `Bearer ${tokenId}`,
             "Content-Type": "application/json",
           },
           withCredentials: true,
@@ -110,6 +111,7 @@ const Folders = () => {
   };
 
   const fetchFolderFn = useCallback(async () => {
+    const tokenId = Cookies.get("tokenId");
     if (!tokenId) {
       toast.error("You are not authenticated.");
       navigate("/login");
@@ -121,7 +123,7 @@ const Folders = () => {
         `${import.meta.env.VITE_APP_API_URL}/api/get_folder_details`,
         {
           method: "GET",
-          headers: { Authorization: tokenId },
+          headers: { Authorization: `Bearer ${tokenId}` },
           credentials: "include",
         }
       );
@@ -144,12 +146,13 @@ const Folders = () => {
   }, [fetchFolderFn]);
 
   const deleteFolderHandler = async (folderId) => {
+    const tokenId = Cookies.get("tokenId");
     try {
       const res = await fetch(
         `${import.meta.env.VITE_APP_API_URL}/api/delete_folder/${folderId}`,
         {
           method: "DELETE",
-          headers: { Authorization: tokenId },
+          headers: { Authorization: `Bearer ${tokenId}` },
           credentials: "include",
         }
       );
@@ -198,13 +201,14 @@ const Folders = () => {
   };
 
   const saveFolderFn = async (folderName) => {
+    const tokenId = Cookies.get("tokenId");
     try {
       const res = await fetch(
         `${import.meta.env.VITE_APP_API_URL}/api/create_folder`,
         {
           method: "POST",
           headers: {
-            Authorization: tokenId,
+            Authorization: `Bearer ${tokenId}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ folderName }),

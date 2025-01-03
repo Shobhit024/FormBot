@@ -37,7 +37,7 @@ const Login = () => {
 
     setErrors({});
     const toastId = toast.loading("Verifying...");
-
+    const tokenId = Cookies.get("tokenId");
     try {
       const API_URL =
         import.meta.env.VITE_APP_API_URL || "http://localhost:5000";
@@ -47,6 +47,7 @@ const Login = () => {
         { email, password },
         {
           headers: {
+            Authorization: `Bearer ${tokenId}`,
             "Content-Type": "application/json",
           },
           withCredentials: true,

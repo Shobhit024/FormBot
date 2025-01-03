@@ -10,6 +10,7 @@ import { RxCross2 } from "react-icons/rx";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { setBot } from "../../redux/botSlice";
+import { setBotUpdate } from "../../redux/botUpdateSlice";
 import style from "./workSpaceAera.module.css";
 import BotPage from "../botPage/BotPage";
 import ResponsePage from "../responsePage/ResponsePage";
@@ -23,6 +24,7 @@ const WorkSpaceArea = ({ isBotSaved }) => {
   const updateData = useSelector(
     (store) => store?.botUpdateReducer?.updateData || {}
   );
+  const [botUpdate, setBotUpdate] = useState("");
   const [botDetails, setBotDetails] = useState([]);
   const [skeleton, setSkeleton] = useState(isBotSaved);
   const location = useLocation();
@@ -50,6 +52,7 @@ const WorkSpaceArea = ({ isBotSaved }) => {
   };
 
   const fetchFolderDetails = useCallback(async () => {
+    const tokenId = Cookies.get("tokenId");
     if (!folderName || !botName) {
       return toast.error("Invalid folder or bot name.");
     }
@@ -58,7 +61,7 @@ const WorkSpaceArea = ({ isBotSaved }) => {
       const response = await axios.get(
         `${import.meta.env.VITE_APP_API_URL}/api/get_folder_details`,
         {
-          headers: { Authorization: tokenId },
+          headers: { Authorization: `Bearer ${tokenId}` },
           withCredentials: true,
         }
       );
@@ -111,6 +114,7 @@ const WorkSpaceArea = ({ isBotSaved }) => {
     }
   }, [fetchFolderDetails, folderName, botName]);
   const handleBotSave = async () => {
+    const tokenId = Cookies.get("tokenId");
     if (!data?.botName) return toast.error("Please enter a bot name.");
     if (data?.botArr?.length === 0) return toast.error("Bot can't be empty.");
 
@@ -121,7 +125,7 @@ const WorkSpaceArea = ({ isBotSaved }) => {
         { data, folder: folderName },
         {
           headers: {
-            Authorization: tokenId,
+            Authorization: `Bearer ${tokenId}`,
             "Content-Type": "application/json",
           },
           withCredentials: true,

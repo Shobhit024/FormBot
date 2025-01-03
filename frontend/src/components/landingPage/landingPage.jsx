@@ -21,7 +21,8 @@ const LandingPage = () => {
     try {
       const res = await axios.get(`${apiUrl}/api/isLoginCheck`, {
         headers: {
-          Authorization: tokenId,
+          Authorization: `Bearer ${tokenId}`,
+          // Authorization: tokenId,
         },
         withCredentials: true,
       });
@@ -37,13 +38,14 @@ const LandingPage = () => {
   }, []);
 
   const logoutHandler = async () => {
+    const tokenId = Cookies.get("tokenId");
     try {
       const res = await axios.post(
         `${apiUrl}/api/logout`,
         {},
         {
           headers: {
-            Authorization: tokenId,
+            Authorization: `Bearer ${tokenId}`,
             "Content-Type": "application/json",
           },
           withCredentials: true,

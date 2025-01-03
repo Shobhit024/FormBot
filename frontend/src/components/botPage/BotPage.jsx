@@ -41,6 +41,7 @@ const BotPage = ({ isBotSaved, skeleton, botDetails }) => {
   });
 
   const fetchFolderFn = useCallback(async () => {
+    const tokenId = Cookies.get("tokenId");
     try {
       const res = await axios.get(
         `${
@@ -48,7 +49,7 @@ const BotPage = ({ isBotSaved, skeleton, botDetails }) => {
         }/api/bot_details/${mainFolder}/${botName}`,
         {
           headers: {
-            Authorization: tokenId,
+            Authorization: `Bearer ${tokenId}`,
           },
           withCredentials: true,
         }

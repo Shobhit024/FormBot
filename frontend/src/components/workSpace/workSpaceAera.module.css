@@ -123,6 +123,14 @@ header .right .shareBtn {
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 }
+.saveBtn {
+  background-color: #4ade80cc;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: none;
+  font-size: 1.05rem;
+  cursor: pointer;
+}
 .header .right .saveBtn {
   background-color: #4ade80cc;
   color: var(--bg-color);

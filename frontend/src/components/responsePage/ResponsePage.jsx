@@ -18,6 +18,7 @@ const ResponsePage = () => {
   const [showDataDetails, setShowDataDetails] = useState([]);
 
   const fetchFolderFn = async () => {
+    const tokenId = Cookies.get("tokenId");
     try {
       const res = await axios.get(
         `${import.meta.env.VITE_APP_API_URL}/api/get_bot_response/${
@@ -25,7 +26,7 @@ const ResponsePage = () => {
         }/`,
         {
           headers: {
-            Authorization: tokenId,
+            Authorization: `Bearer ${tokenId}`,
           },
           withCredentials: true,
         }
