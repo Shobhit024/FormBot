@@ -19,7 +19,7 @@ app.use(cookieParser());
 // app.use(cors());
 app.use(
   cors({
-    origin: "http://localhost:5173", // Update this to your frontend URL
+    origin: "https://formbot-gamo.onrender.com", // Update this to your frontend URL
     methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
     credentials: true, // This allows cookies and other credentials to be sent
   })
