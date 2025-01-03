@@ -241,7 +241,12 @@ const Folders = () => {
               </div>
               {isDropdownOpen && (
                 <div className={style.dropdownMenu}>
-                  <div className={style.dropdownItem}>Settings</div>
+                  <div
+                    className={style.dropdownItem}
+                    onClick={() => navigate("/settings")}
+                  >
+                    Settings
+                  </div>
                   <div onClick={logoutHandler} className={style.dropdownItem1}>
                     Log Out
                   </div>

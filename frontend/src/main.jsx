@@ -8,6 +8,7 @@ import LandingPage from "./components/landingPage/landingPage.jsx";
 import Login from "./components/registerAndLogin/Login.jsx";
 import Folders from "./components/foldersPage/Folders.jsx";
 import WorkSpaceArea from "./components/workSpace/WorkSpaceArea.jsx";
+import Settings from "./components/settingsPage/settings.jsx";
 import { Provider } from "react-redux";
 import store from "./redux/store.js";
 import { Toaster } from "react-hot-toast";
@@ -32,7 +33,10 @@ const router = createBrowserRouter([
         path: "login",
         element: <Login />,
       },
-
+      {
+        path: "settings",
+        element: <Settings />,
+      },
       {
         path: "/skeleton",
         element: <Folders_skeleton />,

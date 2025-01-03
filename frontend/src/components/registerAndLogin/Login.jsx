@@ -57,6 +57,7 @@ const Login = () => {
 
       if (res.status === 200) {
         Cookies.set("tokenId", result.tokenId, { expires: 1 });
+
         dispatch(storeIsLoggedIn(true));
         navigate("/");
         toast.success(result.msg, { id: toastId });

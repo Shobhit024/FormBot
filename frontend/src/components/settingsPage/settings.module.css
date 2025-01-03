@@ -1,0 +1,66 @@
+.settingsFormContainer {
+  height: 115vh;
+  background-color: #18181b;
+  position: relative;
+}
+h2 {
+  padding-top: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+}
+label {
+  display: none;
+}
+.settingsForm {
+  flex-direction: column;
+  padding-top: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.updateButton {
+  margin-top: 20px;
+  padding: 10px 140px;
+  background-color: #1a5fff;
+  color: #d0d0d0;
+  border: 1px solid;
+  border-color: #1a5fff;
+  border-radius: 50px;
+}
+.error {
+  color: red;
+}
+.formGroup {
+  justify-content: center;
+  align-items: center;
+}
+
+.formGroup input {
+  background-color: #18181b;
+  color: #d0d0d0;
+  margin: 10px;
+  padding: 10px 80px;
+  border: 1px solid;
+  border-color: #d0d0d0;
+  border-radius: 7px;
+}
+.icon {
+  color: #d0d0d0;
+  position: absolute;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.icon2 {
+  color: #d0d0d0;
+  position: absolute;
+  margin-top: 20px;
+  margin-left: -40px;
+}
+.logout {
+  padding-top: 5%;
+  padding-left: 5%;
+  color: red;
+}
