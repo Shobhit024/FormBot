@@ -329,4 +329,53 @@ route.get("/isLoginCheck", checkAuth, (req, res) => {
     .json({ msg: "You are authenticated", user: req.loginUser });
 });
 
+// Update Settings API (Combine user and settings update)
+route.post("/update_settings", checkAuth, async (req, res) => {
+  const { name, email, oldPassword, newPassword, settings } = req.body;
+  try {
+    const user = await userModel.findById(req.loginUser._id);
+    if (!user) return res.status(404).json({ msg: "User not found" });
+
+    if (oldPassword && newPassword) {
+      const isMatch = await bcrypt.compare(oldPassword, user.password);
+      if (!isMatch)
+        return res.status(400).json({ msg: "Incorrect old password" });
+
+      // Update password
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      user.password = hashedPassword;
+    }
+
+    // Update name and email
+    user.name = name || user.name;
+    user.email = email || user.email;
+
+    // Update settings if provided
+    if (settings) {
+      user.settings = { ...user.settings, ...settings };
+    }
+
+    await user.save();
+    return res.status(200).json({
+      msg: "Settings updated successfully",
+      settings: user.settings,
+    });
+  } catch (error) {
+    console.error("Error updating settings:", error);
+    return res.status(500).json({ msg: "Internal Server Error" });
+  }
+});
+
+// Get Settings API
+route.get("/get_settings", checkAuth, async (req, res) => {
+  try {
+    const user = await userModel.findById(req.loginUser._id);
+    if (!user) return res.status(404).json({ msg: "User not found" });
+
+    return res.status(200).json({ settings: user.settings });
+  } catch (error) {
+    console.error("Error fetching settings:", error);
+    return res.status(500).json({ msg: "Internal Server Error" });
+  }
+});
 module.exports = route;

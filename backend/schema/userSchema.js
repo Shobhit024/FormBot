@@ -4,6 +4,13 @@ const userSchema = new mongoose.Schema({
   name: String,
   email: String,
   password: String,
+  settings: {
+    type: Object,
+    default: {
+      theme: "light",
+      notifications: true,
+    },
+  },
   folders: [
     {
       type: mongoose.Schema.ObjectId,
