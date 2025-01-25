@@ -6,7 +6,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { NavLink, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Folders_skeleton from "./Folders_skeleton";
-
+import arrow from "./../../assets/arrow.png";
 import icon from "./../../assets/icon.png";
 import { setBotUpdate } from "../../redux/botUpdateSlice";
 import { useDispatch } from "react-redux";
@@ -240,8 +240,18 @@ const Folders = () => {
         >
           <header>
             <div className={style.nameSpace}>
-              <div onClick={toggleDropdown} className={style.dropdownButton}>
-                {userName}'s workspace ▼
+              <div
+                className={`${style.dropdownButton} ${
+                  isDropdownOpen ? style.active : ""
+                }`}
+                onClick={toggleDropdown}
+              >
+                <span>{userName}'s workspace</span>
+                <img
+                  src={arrow}
+                  alt="Toggle Dropdown"
+                  className={style.arrow}
+                />
               </div>
               {isDropdownOpen && (
                 <div className={style.dropdownMenu}>

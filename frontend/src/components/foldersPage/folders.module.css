@@ -48,24 +48,39 @@ header {
   padding: 10px 30px;
 }
 .dropdownMenu {
-  padding-top: 10px;
+  position: relative;
+  border: 1px solid #1d1d1d;
+  font-weight: normal;
+  display: block;
+  border-radius: 10px;
 }
 
+.arrow {
+  width: 10px;
+  height: 10px;
+  display: block;
+}
+.active .arrow {
+  transform: rotate(180deg);
+}
 .nameSpace {
   display: flex;
   align-items: center;
   justify-content: center;
-
   margin: 0 auto;
 }
 
 .dropdownButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  height: 2rem;
+  display: flex;
+  align-items: center;
   gap: 10px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  border: 1px solid rgb(69, 68, 68);
-  padding: 10px 15px;
-  border-radius: 6px;
+  justify-content: space-between;
+  padding: 10px 65px;
+  border-radius: 10px;
 }
 
 .dropdownItem1 {
@@ -87,10 +102,10 @@ header {
   margin-left: -50%;
   margin-top: 30%;
 }
-/* .dropdownItem {
+.dropdownItem {
   border: 1px solid rgb(69, 68, 68);
   padding: 10px 50px;
-} */
+}
 
 header > div {
   display: flex;
@@ -288,8 +303,12 @@ body[data-theme="light"] .folderBox {
 }
 body[data-theme="light"] .dropdownButton {
   color: black;
-  background-color: #e5e5e5;
-  border: 1px solid #ccc;
+  background-color: transparent;
+  border: 1px solid transparent;
+}
+body[data-theme="light"] .arrow {
+  background-color: black;
+  color: black;
 }
 
 /* Dark Mode Styles */
